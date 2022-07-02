@@ -10,6 +10,7 @@ import {
   getEventHash
 } from './event'
 import {matchFilter, matchFilters} from './filter'
+import {encrypt, decrypt} from './nip04'
 
 export {
   generatePrivateKey,
@@ -23,5 +24,7 @@ export {
   getPublicKey,
   getBlankEvent,
   matchFilter,
-  matchFilters
+  matchFilters,
+  encrypt,
+  decrypt
 }
