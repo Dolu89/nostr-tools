@@ -37,7 +37,7 @@ export class SimplePool {
   sub(relays: string[], filters: Filter[], opts?: SubscriptionOptions): Sub {
     let _knownIds: Set<string> = new Set()
     let modifiedOpts = opts || {}
-    modifiedOpts.alreadyHaveEvent = (id, url) => {
+    modifiedOpts.alreadyHaveEvent = async (id, url) => {
       let set = this._seenOn[id] || new Set()
       set.add(url)
       this._seenOn[id] = set

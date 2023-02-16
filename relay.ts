@@ -32,7 +32,7 @@ export type Sub = {
 export type SubscriptionOptions = {
   id?: string
   skipVerification?: boolean
-  alreadyHaveEvent?: null | ((id: string, relay: string) => boolean)
+  alreadyHaveEvent?: null | ((id: string, relay: string) => Promise<boolean>)
 }
 
 export function relayInit(url: string): Relay {
@@ -89,7 +89,7 @@ export function relayInit(url: string): Relay {
         }
       }
 
-      function handleNext() {
+      async function handleNext() {
         if (incomingMessageQueue.length === 0) {
           clearInterval(handleNextInterval)
           handleNextInterval = null
@@ -105,7 +105,7 @@ export function relayInit(url: string): Relay {
           if (
             so &&
             so.alreadyHaveEvent &&
-            so.alreadyHaveEvent(getHex64(json, 'id'), url)
+            await so.alreadyHaveEvent(getHex64(json, 'id'), url)
           ) {
             return
           }
@@ -124,7 +124,7 @@ export function relayInit(url: string): Relay {
               if (
                 validateEvent(event) &&
                 openSubs[id] &&
-                (openSubs[id].skipVerification || verifySignature(event)) &&
+                (openSubs[id].skipVerification || await verifySignature(event)) &&
                 matchFilters(openSubs[id].filters, event)
               ) {
                 openSubs[id]
