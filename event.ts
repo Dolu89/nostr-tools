@@ -51,11 +51,11 @@ export function getBlankEvent(): EventTemplate {
   }
 }
 
-export function finishEvent(t: EventTemplate, privateKey: string): Event {
+export async function finishEvent(t: EventTemplate, privateKey: string): Promise<Event> {
   let event = t as Event
   event.pubkey = getPublicKey(privateKey)
   event.id = getEventHash(event)
-  event.sig = signEvent(event, privateKey)
+  event.sig = await signEvent(event, privateKey)
   return event
 }
 
