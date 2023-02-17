@@ -172,7 +172,9 @@ export function relayInit(url: string): Relay {
     let msg = JSON.stringify(params)
 
     try {
-      ws.send(msg)
+      if (ws?.readyState && ws.readyState === 1) {
+        ws.send(msg)
+      }
     } catch (err) {
       console.log(err)
     }
