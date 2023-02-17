@@ -20,6 +20,7 @@ export type Relay = {
 export type Pub = {
   on: (type: 'ok' | 'failed', cb: any) => void
   off: (type: 'ok' | 'failed', cb: any) => void
+  unpub: () => void
 }
 export type Sub = {
   sub: (filters: Filter[], opts: SubscriptionOptions) => Sub
@@ -278,6 +279,9 @@ export function relayInit(url: string): Relay {
             failed: []
           }
           pubListeners[id][type].push(cb)
+        },
+        unpub: () => {
+          delete pubListeners[id]
         },
         off: (type: 'ok' | 'failed', cb: any) => {
           let listeners = pubListeners[id]
