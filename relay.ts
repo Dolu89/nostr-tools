@@ -1,8 +1,7 @@
-/* global WebSocket */
-
-import {Event, verifySignature, validateEvent} from './event'
-import {Filter, matchFilters} from './filter'
-import {getHex64, getSubscriptionId} from './fakejson'
+import { Event, verifySignature, validateEvent } from './event'
+import { Filter, matchFilters } from './filter'
+import { getHex64, getSubscriptionId } from './fakejson'
+import WebSocket from 'ws'
 
 type RelayEvent = 'connect' | 'disconnect' | 'error' | 'notice'
 
@@ -83,7 +82,7 @@ export function relayInit(url: string): Relay {
       let handleNextInterval: any
 
       ws.onmessage = e => {
-        incomingMessageQueue.push(e.data)
+        incomingMessageQueue.push(e.data.toString())
         if (!handleNextInterval) {
           handleNextInterval = setInterval(handleNext, 0)
         }
@@ -128,7 +127,7 @@ export function relayInit(url: string): Relay {
                 matchFilters(openSubs[id].filters, event)
               ) {
                 openSubs[id]
-                ;(subListeners[id]?.event || []).forEach(cb => cb(event))
+                  ; (subListeners[id]?.event || []).forEach(cb => cb(event))
               }
               return
             case 'EOSE': {
