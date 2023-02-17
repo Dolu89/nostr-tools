@@ -1,6 +1,6 @@
 {
   "name": "@dolu/nostr-tools",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "description": "Tools for making a Nostr client.",
   "repository": {
     "type": "git",
